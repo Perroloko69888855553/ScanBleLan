@@ -1,11 +1,12 @@
 
 from adafruit_ble import BLERadio
 import pymysql as MySQLdb
+import json
+import os
 
-#variables Iniciales
-db_host = "localhost"
-db_user = "root"
-db_pass = ""
+#Inicializar Variables
+
+
 
 def escaneoDispositivos():
     ble = BLERadio()
@@ -29,12 +30,18 @@ def escaneoDispositivos():
     print("--------- Fin de Escaneo ---------")
 
 def escrituraDB():
-    connection = MySQLdb.connect(host=db_host, user=db_user, passwd=db_pass)
+    c = cargarCreds()
+    connection = MySQLdb.connect(host=c["host"], user=c["user"], passwd=c["pass"])
     cursor = connection.cursor()
+    cursor.execute("CREATE DATABASE IF NOT EXISTS ble_devices")
+    result = cursor.fetchall()
+    print(result)
     
-        cursor.execute("CREATE DATABASE IF NOT EXISTS ble_devices")       
-    
+def cargarCreds():
+    filepath = os.path.dirname(__file__) + "/creds.json"
+    print(filepath)
+    data = json.load(open(filepath, 'r'))
+    return data
 
-            
 escrituraDB()
 #escaneoDispositivos()
