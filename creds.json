@@ -1,5 +1,5 @@
 {
-	user:"root",
-	pass:"",
-	host:"localhost"
+	"user":"root",
+	"pass":"",
+	"host":"localhost"
 }

@@ -6,8 +6,6 @@ import os
 
 #Inicializar Variables
 
-
-
 def escaneoDispositivos():
     ble = BLERadio()
     print("scanning")
