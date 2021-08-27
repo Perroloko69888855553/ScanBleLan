@@ -1,0 +1,19 @@
+{
+	"db_data":[{
+		"user":"root",
+		"pass":"",
+		"host":"localhost",
+		"db_name":"ble_devices",
+		"db_table":"devices"
+	}
+		
+	],
+
+	"ble_scanner":[
+		{
+			"scan_timeout": 10,
+			"buffer_size": 1024
+		}
+	]
+	
+}

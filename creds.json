@@ -1,8 +1,0 @@
-{
-	"user":"root",
-	"pass":"",
-	"host":"localhost",
-	"db_name":"ble_devices",
-	"db_table":"devices",
-	"scan_timeout": 10
-}
