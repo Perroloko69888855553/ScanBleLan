@@ -16,24 +16,18 @@ Ble Lan Scanner
 
 <div class="container">
   <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
-
-      <h1 class="pt-3 pb-3">DISPOSITIVOS BLE</h1>
-
-      <p class="lead">Dipo.</p>
-
-  
-      <p class="lead alert alert-warning">Todos los dispositivos
-        style in our inventory.</p>
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto"> 
+      <p class="lead alert alert-warning">Listado de dipositivos escaneados.
+       </p>
         <table class="table">
           <tr>
-            <th>Dirección</th>
+            <th>BMAC</th>
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Fecha de escaneo</th>
           </tr>
     
-          <!-- here is a for-loop to give us all the socks -->
+          <!--Iteración entre los dispositivos reigstrados-->
           {% for device in devices %}
           <tr>
             <td>{{ device.address }}</td>
@@ -43,14 +37,6 @@ Ble Lan Scanner
           </tr>
           {% endfor %}
         </table>
-
-      <ul>
-          {% for s in styles %}
-          <li><a href="{{ url_for( 'inventory', devices=d.address) }}">{{ d.address }}</a></li>
-          {% endfor %}
-      </ul>
-
-
 
     </div>
   </div>

@@ -1,3 +1,5 @@
+#Python 3.9.5
+# Script para la creación de la estructura de la BBDD
 import json, os
 import db_conn
 

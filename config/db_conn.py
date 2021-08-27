@@ -1,3 +1,5 @@
+#Python 3.9.5
+#Conexion y querys a BBDD
 import pymysql as MySQLdb
 
 class db_conn:

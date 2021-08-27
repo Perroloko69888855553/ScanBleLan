@@ -1,4 +1,5 @@
 #python 3.9.5
+# Escanea y guarda en BBDD los dispositivos BLE cercanos.
 from adafruit_ble import BLERadio
 import json, os
 from config import db_conn as db_obj

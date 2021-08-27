@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{{ the_title }}</title>
+	</head>
+	<body>
 
-	<title>{{ the_title }}</title>
+		<div id="container">
+	  		{% block content %}
+  			{% endblock %}
+		</div>
 
-	<!-- note the special href for files in the Flask "static" folder -->
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
-</head>
-<body>
-
-<div id="container">
-
-  <!-- Jinja directives: page contents will go between them -->
-  {% block content %}
-  {% endblock %}
-
-</div>
-
-</body>
+	</body>
 </html>
