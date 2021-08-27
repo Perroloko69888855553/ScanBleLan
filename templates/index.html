@@ -1,0 +1,45 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+{% block title %}
+Ble Lan Scanner
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto"> 
+      <p class="lead alert alert-warning">Listado de dipositivos escaneados.
+       </p>
+        <table class="table">
+          <tr>
+            <th>BMAC</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fecha de escaneo</th>
+          </tr>
+    
+          <!--Iteración entre los dispositivos reigstrados-->
+          {% for device in devices %}
+          <tr>
+            <td>{{ device.address }}</td>
+            <td>{{ device.name }}</td>
+            <td>{{ device.description }}</td>
+            <td>{{ device.date_scan.strftime("%d/%m/%Y")}}</td>
+          </tr>
+          {% endfor %}
+        </table>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
