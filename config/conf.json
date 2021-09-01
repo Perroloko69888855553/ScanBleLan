@@ -4,7 +4,7 @@
 		"pass":"",
 		"host":"localhost",
 		"db_name":"ble_devices",
-		"db_table":"devices"
+		"db_table":"device"
 	}
 		
 	],
@@ -15,5 +15,4 @@
 			"buffer_size": 1024
 		}
 	]
-	
 }

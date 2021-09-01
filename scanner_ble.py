@@ -1,7 +1,7 @@
 #python 3.9.5
 # Escanea y guarda en BBDD los dispositivos BLE cercanos.
 from adafruit_ble import BLERadio
-import json, os
+import json, os, re
 from config import db_conn as db_obj
 
 def escaneoDispositivos(timeout,buffer_size):  
@@ -34,12 +34,10 @@ def escaneoBLE():
     #Iteraccion para el registro de los dispositivos
         for dispositivo in dispositivos:
             address = repr(dispositivo.address).split("\"")[1]
-            name = repr(dispositivo.complete_name) if (dispositivo.complete_name is not None) else "unknow_device"
+            name = re.sub("\"|\'","",repr(dispositivo.complete_name)) if (dispositivo.complete_name is not None) else "unknow_device"
             #Insertar en la bbdd si no estan guardados            
             if db.existeRegistro(db_data["db_name"],db_data["db_table"],address):
                 continue
             else:
                db.insertarTabla(db_data["db_name"],db_data["db_table"],address,name)
-
-    print("Fin del programa")
 

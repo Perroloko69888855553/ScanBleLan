@@ -21,7 +21,7 @@ class db_conn:
     def insertarTabla(self, db_name, db_table, address, name):
         """Inserta un registro en la BBDD"""
         insert = "INSERT INTO " + db_name + "." + db_table + " (address, name) VALUES ('" + address + "' , '" + name + "' )"
-        print("Insertar - datos " + address + name)
+        print("Insertar - datos " + address + " - "+ name)
         self.cursor.execute(insert)
         self.cursor.execute("COMMIT")
         result = self.cursor.fetchone()
@@ -30,8 +30,7 @@ class db_conn:
     def existeRegistro(self, db_name, db_table, address):
         """Comprueba la existencia del registro en la BBDD"""
         existe = "SELECT * FROM " + db_name  + "." + db_table + " WHERE address = '" + address + "'"
-        print(existe)
-        print("Exists")
+        print("Comprobación registro - " + address)
         self.cursor.execute(existe)
         if self.cursor.fetchone() is None:
             return False

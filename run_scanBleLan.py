@@ -2,6 +2,7 @@
 #App web con el listado de dispositivos.
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from flask_bootstrap import Bootstrap
 import json, os
 import scanner_ble
@@ -15,26 +16,25 @@ db_data = json_file["db_data"][0]
 #Realiza el escaneo de dispositivos
 scanner_ble.escaneoBLE()
 #Configuración y conexion con BBDD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + db_data["user"] + ':' + db_data["pass"] + '@' + db_data["host"] + "/" + db_data["db_name"]
+db_uri = 'mysql+pymysql://' + db_data["user"] + ':' + db_data["pass"] + '@' + db_data["host"] + "/" + db_data["db_name"]
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
-
 #Modelo de la tabla de la BBDD
 class Device(db.Model):
-    __tablename__ = 'devices'
+    __tablename__ = db_data["db_table"]
     address = db.Column(db.String(255), primary_key=True, nullable = False)
     name = db.Column(db.String(255), nullable = True)
-    description = db.Column(db.String(255), nullable = True)
     date_scan = db.Column(db.DateTime, nullable = False)
 
 #Route ;: Envia los registros de la BBDD
 @app.route('/')
 def index():
-    devices = Device.query.filter().all()
+    devices = Device.query.filter().order_by(desc(Device.date_scan)).all()
     return render_template('index.html', devices=devices)
 
 if __name__ == '__main__':
-      app.run(debug=True)
+      app.run()
