@@ -4,7 +4,7 @@
 		"pass":"",
 		"host":"localhost",
 		"db_name":"ble_devices",
-		"db_table":"devices"
+		"db_table":"device"
 	}
 		
 	],
@@ -14,6 +14,12 @@
 			"scan_timeout": 10,
 			"buffer_size": 1024
 		}
+	],
+
+	"device_default":[
+		{
+			"default_name": "unknow_device",
+			"zone": "Hogar_1"
+		}
 	]
-	
 }

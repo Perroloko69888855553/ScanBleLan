@@ -17,13 +17,13 @@ Ble Lan Scanner
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto"> 
-      <p class="lead alert alert-warning">Listado de dipositivos escaneados.
+      <p class="lead alert alert-warning">Listado de dipositivos Bluetooth Low-Energy escaneados.
        </p>
         <table class="table">
           <tr>
             <th>BMAC</th>
             <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Zona</th>
             <th>Fecha de escaneo</th>
           </tr>
     
@@ -32,7 +32,7 @@ Ble Lan Scanner
           <tr>
             <td>{{ device.address }}</td>
             <td>{{ device.name }}</td>
-            <td>{{ device.description }}</td>
+            <td>{{ device.zone }}</td>
             <td>{{ device.date_scan.strftime("%d/%m/%Y")}}</td>
           </tr>
           {% endfor %}
