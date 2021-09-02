@@ -28,6 +28,7 @@ class Device(db.Model):
     __tablename__ = db_data["db_table"]
     address = db.Column(db.String(255), primary_key=True, nullable = False)
     name = db.Column(db.String(255), nullable = True)
+    zone = db.Column(db.String(255), nullable = True)
     date_scan = db.Column(db.DateTime, nullable = False)
 
 #Route ;: Envia los registros de la BBDD

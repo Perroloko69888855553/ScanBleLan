@@ -22,9 +22,10 @@ def escaneoDispositivos(timeout,buffer_size):
 def escaneoBLE():
     #lectura datos json
     json_file = json.load(open(os.path.dirname(__file__) + "/config/conf.json", 'r'))
-    #Se cargan los datos de la bbdd y el escaner
+    #Se cargan los datos de la bbdd, el escaner y dispositivo
     db_data = json_file["db_data"][0]
     ble_scanner = json_file["ble_scanner"][0]
+    device_default = json_file["device_default"][0]
     #Escaneo de dispositivos
     dispositivos = escaneoDispositivos(ble_scanner["scan_timeout"], ble_scanner["buffer_size"])
 
@@ -34,10 +35,10 @@ def escaneoBLE():
     #Iteraccion para el registro de los dispositivos
         for dispositivo in dispositivos:
             address = repr(dispositivo.address).split("\"")[1]
-            name = re.sub("\"|\'","",repr(dispositivo.complete_name)) if (dispositivo.complete_name is not None) else "unknow_device"
+            name = re.sub("\"|\'","",repr(dispositivo.complete_name)) if (dispositivo.complete_name is not None) else device_default["default_name"]
             #Insertar en la bbdd si no estan guardados            
             if db.existeRegistro(db_data["db_name"],db_data["db_table"],address):
                 continue
             else:
-               db.insertarTabla(db_data["db_name"],db_data["db_table"],address,name)
+               db.insertarTabla(db_data["db_name"],db_data["db_table"],address,name,device_default["zone"])
 

@@ -18,10 +18,10 @@ class db_conn:
         connection = MySQLdb.connect(host=db_host, user=db_user, passwd=db_pass)
         self.cursor = connection.cursor()
 
-    def insertarTabla(self, db_name, db_table, address, name):
+    def insertarTabla(self, db_name, db_table, address, name, zone):
         """Inserta un registro en la BBDD"""
-        insert = "INSERT INTO " + db_name + "." + db_table + " (address, name) VALUES ('" + address + "' , '" + name + "' )"
-        print("Insertar - datos " + address + " - "+ name)
+        insert = "INSERT INTO " + db_name + "." + db_table + " (address, name,zone) VALUES ('" + address + "' , '" + name + "', '"+zone+"' )"
+        print("Insertar - datos " + address + " - " + name + " - " + zone)
         self.cursor.execute(insert)
         self.cursor.execute("COMMIT")
         result = self.cursor.fetchone()

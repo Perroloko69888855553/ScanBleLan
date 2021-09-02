@@ -23,6 +23,7 @@ Ble Lan Scanner
           <tr>
             <th>BMAC</th>
             <th>Nombre</th>
+            <th>Zona</th>
             <th>Fecha de escaneo</th>
           </tr>
     
@@ -31,6 +32,7 @@ Ble Lan Scanner
           <tr>
             <td>{{ device.address }}</td>
             <td>{{ device.name }}</td>
+            <td>{{ device.zone }}</td>
             <td>{{ device.date_scan.strftime("%d/%m/%Y")}}</td>
           </tr>
           {% endfor %}
