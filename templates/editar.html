@@ -1,0 +1,44 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+
+{% block title %}
+Ble Lan Scanner
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row pb-5">
+      <div class="col-lg-10 mx-lg-auto">
+        <p class="lead alert alert-success">Página de modificación de registro</p>
+
+		<!-- links -->
+		<p class="ml-4"><a href="{{ url_for('index') }}">Indice de zonas.</a></p>
+        
+
+        <p> <a href="{{ url_for( 'zona', zone=device.zone ) }}"> Volver al inventario Zona {{ device.zone }} </a> </p>
+		
+
+            <p>Se va a modificar el registro "{{device.address}}"</p>
+            <!-- Formulario de moficación  -->
+		<form method="post" action="{{ url_for('editar', address=device.address )}}" id="update">
+			{{ form1.csrf_token }}
+			{{ form1.id_field(value=device.address) }}
+			{{ wtf.form_field(form1.name, value=device.name) }}
+            {{ wtf.form_field(form1.zone, value=device.zone) }}
+			{{ wtf.form_field(form1.submit, button_map={'submit':'success'}) }}
+		</form>
+
+</div>
+</div>
+</div>
+
+
+{% endblock %}

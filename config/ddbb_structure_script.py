@@ -12,6 +12,7 @@ def crearDB():
 
 def crearTabla(db,db_name,db_table):
     tabla_query = 'CREATE TABLE IF NOT EXISTS ' + db_name + "." + db_table
-    db.ejecutarQuery( tabla_query + " (address VARCHAR(255) NOT NULL, name VARCHAR(255) NULL , zone VARCHAR(255) NULL , date_scan DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (address))")
+    tabla_query+= " (address VARCHAR(255) NOT NULL, name VARCHAR(255) NULL , zone VARCHAR(255) NULL , date_scan DATE NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (address))"
+    db.ejecutarQuery( tabla_query )
     
 crearDB()
