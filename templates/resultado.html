@@ -1,0 +1,40 @@
+{% extends 'bootstrap/base.html' %}
+
+
+{% block styles %}
+{{ super() }}
+	<style>
+		body { background: #e8f1f9; }
+	</style>
+{% endblock %}
+
+
+{% block title %}
+Ble Lan Scanner
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row pb-5">
+    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+		<p class="lead alert alert-warning">Listado de dipositivos Bluetooth Low-Energy escaneados.</p>
+	{% if message %}
+
+		<!-- Mensaje del resultado  -->
+		<p class="lead"><strong>{{ message }}</strong></p>
+
+	{% else %}
+
+		<p class="lead">No se ha realizado ninguna acción.</p>
+
+	{% endif %}
+
+		<!-- links -->
+		<p class="ml-4"><a href="{{ url_for('index') }}">Indice de zonas.</a></p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
