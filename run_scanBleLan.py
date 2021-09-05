@@ -12,15 +12,17 @@ from wtforms.validators import InputRequired, Length, Regexp, NumberRange
 import json, os
 import scanner_ble
 import pyotp
+import webbrowser
 
 #Se instancian las variables de las librerias Flask y Bootstrap.
 app = Flask(__name__)
 # Clave creada aleatoriamente en base32 para la encriptación de la libreria Flask-WTF
 app.config['SECRET_KEY'] = pyotp.random_base32()
 Bootstrap(app)
-#Recoge del fichero JSON los datos de la BBDD
+#Recoge del fichero JSON los datos de la BBDD y la configurción de flask
 json_file = json.load(open(os.path.dirname(__file__) + "/config/conf.json", 'r'))
 db_data = json_file["db_data"][0]
+flask_data = json_file["flask_data"][0]
 #Realiza el escaneo de dispositivos
 scanner_ble.escaneoBLE()
 #Configuración y conexion con BBDD
@@ -47,25 +49,23 @@ class Device(db.Model):
 
 #Formulario para la modificación de los registros
 class editDevice(FlaskForm):
-    # id used only by update/edit
+    # identificador del campo
     id_field = HiddenField()
-    name = StringField('Nombre del dispositivo', [ InputRequired(),
-        Regexp(r'^[A-Za-z\s\-\']+$', message="Nombre no permitido"),
-        Length(min=3, max=255, message="Error, la longitud debe comprender entre 3 y 255")
-        ])
-    zone = StringField('Zona del dispositivo', [ InputRequired(),
-        Regexp(r'^[A-Za-z\s\-\']+$', message="Nombre de zona no permitida"),
-        Length(min=3, max=255, message="Error, la longitud debe comprender entre 3 y 255")
-        ])
-    updated = HiddenField()
+    #Restricciones de los campos Name y Zone
+    name = StringField('Nombre del dispositivo', [ InputRequired()])
+    zone = StringField('Zona del dispositivo', [ InputRequired()])
     submit = SubmitField('Actualizar')
 
 #Route ;: Muestra el listado de zonas
 @app.route('/')
 def index():
-    devices = Device.query.filter().order_by(desc(Device.date_scan)).all()
-    zones = Device.query.with_entities(Device.zone).distinct()
-    return render_template('index.html', devices=devices, zones=zones)
+    try:
+        devices = Device.query.filter().order_by(desc(Device.date_scan)).all()
+        zones = Device.query.with_entities(Device.zone).distinct().order_by(Device.zone)
+        return render_template('index.html', devices=devices, zones=zones)
+    except Exception as e:
+        # La variable e contiene la descripción del error
+        return errorPaginas(e,"index.html")
 
 #Listado de dispositivos filtrado por zona
 @app.route('/zona/<zone>')
@@ -74,36 +74,51 @@ def zona(zone):
         devices = Device.query.filter_by(zone=zone).order_by(desc(Device.date_scan)).all()
         return render_template('zona.html', devices=devices, zone=zone)
     except Exception as e:
-        # e holds description of the error
-        error_text = "<p>The error:<br>" + str(e) + "</p>"
-        hed = '<h1>Something is broken.</h1>'
-        return hed + error_text
+        # La variable e contiene la descripción del error
+        return errorPaginas(e,"zona.html")
+
+# Pagina del formulario de modificación del registro
+@app.route('/editar/<address>',  methods=['GET', 'POST'])
+def formEditar(address):
+    try:
+        device = Device.query.filter(Device.address == address).first()
+        form1 = editDevice()
+        return render_template('editar.html', device=device, zones=device.zone, form1=form1, address=address)
+    except Exception as e:
+        # La variable e contiene la descripción del error
+        return errorPaginas(e,"editar.html")
 
 # Muestra la página resultado al eliminar un registro de la base de datos
 @app.route('/resultado/<address>')
 def eliminar(address):
+    try:
         device = Device.query.filter(Device.address == address).first()
         db.session.delete(device)
         db.session.commit()
         message = f"El registro del dispositivo {device.address} ha sido eliminado."
         return render_template('resultado.html', message=message)
-
-# Pagina del formulario de modificación del registro
-@app.route('/editar/<address>',  methods=['GET', 'POST'])
-def formEditar(address):
-    device = Device.query.filter(Device.address == address).first()
-    form1 = editDevice()
-    return render_template('editar.html', device=device, zones=device.zone, form1=form1, address=address)
+    except Exception as e:
+        # La variable e contiene la descripción del error
+        return errorPaginas(e,"resultado.html")
 
 # Muestra la página resultado al modificar un registro de la base de datos
 @app.route('/resultado/<address>', methods=['POST'])
 def editar(address):
+    try:
         device = Device.query.filter(Device.address == address).first()
         device.name = request.form['name']
         device.zone = request.form['zone']
         db.session.commit()
         message = f"El registro del dispositivo {device.address} ha sido modificado."
         return render_template('resultado.html', message=message, zone=device.zone)
+    except Exception as e:
+        # La variable e contiene la descripción del error
+        return errorPaginas(e,"resultado.html")
+
+def errorPaginas(exception,pagina):
+        error = "<p>Error en la página " + pagina +" :<br>" + str(exception) + "</p>"
+        encabezado = '<h1>Fallo en el aplicativo.</h1>'
+        return encabezado + error
 
 if __name__ == '__main__':
-      app.run()
+    app.run(host=flask_data["host"], port=flask_data["port"])

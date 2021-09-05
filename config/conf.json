@@ -21,5 +21,11 @@
 			"default_name": "unknow_device",
 			"zone": "Hogar_1"
 		}
+	],
+	"flask_data":[
+		{
+			"host": "localhost",
+			"port": 5000
+		}
 	]
 }

@@ -19,7 +19,7 @@ Ble Lan Scanner
 <div class="container">
   <div class="row pb-5">
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
-
+		<p class="lead alert alert-warning">Listado de dipositivos Bluetooth Low-Energy escaneados.</p>
 	{% if message %}
 
 		<!-- Mensaje del resultado  -->
@@ -33,7 +33,6 @@ Ble Lan Scanner
 
 		<!-- links -->
 		<p class="ml-4"><a href="{{ url_for('index') }}">Indice de zonas.</a></p>
-        <p> <a href="{{ url_for( 'zona', zone=zone ) }}"> Volver al inventario Zona {{ zone }} </a> </p>
 		</div>
 	</div>
 </div>
