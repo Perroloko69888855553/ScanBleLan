@@ -28,13 +28,13 @@ scanner_ble.escaneoBLE()
 #Configuración y conexion con BBDD
 db_uri = 'mysql+pymysql://' + db_data["user"] + ':' + db_data["pass"] + '@' + db_data["host"] + "/" + db_data["db_name"]
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
 #Modelo de la tabla de la BBDD
 class Device(db.Model):
-
     __tablename__ = db_data["db_table"]
     address = db.Column(db.String(255), primary_key=True, nullable = False)
     name = db.Column(db.String(255), nullable = True)
